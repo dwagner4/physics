@@ -55,13 +55,13 @@ body {
 
 #menubtn {
   position: fixed;
-  top: 125px;
+  top: 50px;
   left: 3%;
 }
 
 #aboutbtn {
   position: fixed;
-  top: 200px;
+  top: 125px;
   left: 3%;
 }
 

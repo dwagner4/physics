@@ -1,57 +1,58 @@
 import * as THREE from 'three';
 import World from '../systems/World.js';
 
-import HeartScenery from '../scenery/HeartScenery.js';
-import Heart from '../actors/Heart.js';
-import MySphere from '../props/MySphere.js';
+import CannonScenery from '../scenery/CannonScenery.js';
+
+import BallTray from '../actors/BallTray.js';
+import FallingBalls from '../actors/FallingBalls.js';
 
 export default class InitialWorld extends World {
   constructor(stage) {
     super(stage);
-
-    this.stage.camera.position.set(0, 1.6, 5);
+    this.stage = stage;
+    this.stage.enablePhysics();
+    this.stage.camera.position.set(0, 3, 16);
     this.stage.scene.background = new THREE.Color(0x003049);
 
-    const hrtBgrd = new HeartScenery();
-    this.hemi = hrtBgrd.hemilight;
-    this.light = hrtBgrd.light;
-    this.plane = hrtBgrd.plane;
-    this.stage.scene.add(this.hemi, this.light, this.plane);
+    this.cannonscene = new CannonScenery();
+    this.light = this.cannonscene.light;
+    this.pointlight = this.cannonscene.pointlight;
+    this.stage.scene.add(this.pointlight, this.light);
 
-    this.heart = {};
-    this.sphere = {};
+    this.balltray = {};
   }
 
   async init() {
     await super.init();
 
-    this.heart = new Heart();
-    await this.heart.init();
-    this.heart.model.position.y += 0.95;
-    this.stage.scene.add(this.heart.model);
+    this.balltray = new BallTray();
+    await this.balltray.init();
+    this.stage.scene.add(this.balltray.model);
+    this.stage.physWorld.addBody(this.balltray.body);
 
-    this.sphere = new MySphere();
-    await this.sphere.init();
-    this.sphere.model.position.x += 1;
-    this.sphere.model.position.y += 0.25;
-    this.sphere.model.castShadow = true;
-    this.stage.scene.add(this.sphere.model);
+    this.balls = new FallingBalls(200);
+    this.objectsToUpdate.push(this.balls);
   }
 
   update(time) {
+    if (this.balls.theBalls.length < this.balls.numberOfBalls) {
+      const nextBall = this.balls.createABall(this.balls.theBalls.length);
+      this.stage.scene.add(nextBall.model);
+      this.stage.physWorld.addBody(nextBall.body);
+    }
     super.update(time);
   }
 
   dispose() {
     this.stage.disableVR();
-    this.heart.dispose();
-    this.heart.model.removeFromParent();
-    this.hemi.removeFromParent();
+    this.pointlight.removeFromParent();
     this.light.removeFromParent();
-    this.plane.geometry.dispose();
-    this.plane.material.dispose();
-    this.plane.removeFromParent();
-    this.sphere.dispose();
-    this.sphere.model.removeFromParent();
+    this.balltray.model.geometry.dispose();
+    this.balltray.model.material.dispose();
+    this.balltray.model.removeFromParent();
+
+    this.balls.theBalls.forEach(b => b.model.removeFromParent());
+    this.balls.dispose();
+    // this.balls.removeFromParent()
   }
 }

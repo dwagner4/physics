@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import * as THREE from 'three';
+import PhysWorld from './PhysWorld.js';
 
 export default class Stage {
   constructor(canvas) {
@@ -46,6 +47,7 @@ export default class Stage {
       `,
     });
     const overlay = new THREE.Mesh(this.overlayGeometry, this.overlayMaterial);
+    overlay.name = 'overlay';
     this.scene.add(overlay);
 
     this.camera = new THREE.PerspectiveCamera(
@@ -100,7 +102,9 @@ export default class Stage {
 
   disableVR() {}
 
-  enablePhysics() {}
+  enablePhysics() {
+    this.physWorld = new PhysWorld();
+  }
 
   disbalePhysics() {}
 

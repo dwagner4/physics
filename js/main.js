@@ -53,14 +53,18 @@ homebtn.onclick = () => {
   gsap.to(stage.overlayMaterial.uniforms.uAlpha, {
     duration: fadeDuration,
     value: 1,
-    onComplete: () => mainService.send({ type: 'HOME' }),
+    onComplete: () => {
+      mainService.send({ type: 'HOME' });
+    },
   });
 };
 menubtn.onclick = () => {
   gsap.to(stage.overlayMaterial.uniforms.uAlpha, {
     duration: fadeDuration,
     value: 1,
-    onComplete: () => mainService.send({ type: 'ONE' }),
+    onComplete: () => {
+      mainService.send({ type: 'AMMO' });
+    },
   });
 };
 
@@ -124,7 +128,7 @@ let currentStateStr = null;
 
 mainService.subscribe(state => {
   homebtn.style.display = state.context.homebtn;
-  menubtn.style.display = state.context.nextbtn;
+  menubtn.style.display = state.context.menubtn;
   aboutbtn.style.display = state.context.aboutbtn;
 
   // changing world, don't want to restart world if not changed
@@ -149,6 +153,20 @@ mainService.subscribe(state => {
         killWorld();
       }
       import('./worlds/OneWorld.js').then(module => {
+        stage.world = new module.default(stage);
+        stage.world.init();
+        stage.start();
+        gsap.to(stage.overlayMaterial.uniforms.uAlpha, {
+          duration: fadeDuration,
+          value: 0,
+        });
+      });
+    }
+    if (stateStr === 'ammo') {
+      if (stage.world) {
+        killWorld();
+      }
+      import('./worlds/AmmoWorld.js').then(module => {
         stage.world = new module.default(stage);
         stage.world.init();
         stage.start();

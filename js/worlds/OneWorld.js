@@ -3,7 +3,7 @@ import World from '../systems/World.js';
 
 import HeartScenery from '../scenery/HeartScenery.js';
 import Heart from '../actors/Heart.js';
-import MySphere from '../props/MySphere.js';
+import MySphere from '../actors/MySphere.js';
 
 export default class OneWorld extends World {
   constructor(stage) {

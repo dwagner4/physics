@@ -11,10 +11,17 @@ const mainMachine = createMachine(
         entry: ['selecthome'],
         on: {
           ONE: { target: 'one' },
+          AMMO: { target: 'ammo' },
         },
       },
       one: {
         entry: ['selectone'],
+        on: {
+          HOME: { target: 'home' },
+        },
+      },
+      ammo: {
+        entry: ['selectammo'],
         on: {
           HOME: { target: 'home' },
         },
@@ -24,11 +31,16 @@ const mainMachine = createMachine(
   {
     actions: {
       selecthome: assign({
-        homebtn: 'block',
+        homebtn: 'none',
         menubtn: 'block',
         aboutbtn: 'block',
       }),
       selectone: assign({
+        homebtn: 'block',
+        menubtn: 'none',
+        aboutbtn: 'none',
+      }),
+      selectammo: assign({
         homebtn: 'block',
         menubtn: 'none',
         aboutbtn: 'none',
