@@ -45,7 +45,11 @@ export default class FallingBalls {
   update() {
     const currentTime = Date.now();
     const ballWait = currentTime - this.lastBall;
-    if (ballWait > 200 && this.theBalls.length >= this.numberOfBalls) {
+    if (
+      ballWait > 200 &&
+      this.theBalls.length >= this.numberOfBalls &&
+      this.theBalls.length > 0
+    ) {
       this.theBalls[this.ballcount].body.position = new CANNON.Vec3(
         Math.random() * 3 - 1.5,
         6,

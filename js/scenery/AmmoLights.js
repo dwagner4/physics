@@ -12,5 +12,7 @@ export default class HeartScenery extends Scenery {
     this.light.shadow.mapSize.height = 512;
     this.light.shadow.camera.near = 0.5;
     this.light.shadow.camera.far = 500;
+
+    this.ambientlight = new THREE.AmbientLight(0xff9999, 1.0);
   }
 }

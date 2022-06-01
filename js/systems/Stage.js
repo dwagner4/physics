@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import * as THREE from 'three';
+// import Ammo from 'ammo';
 import PhysWorld from './PhysWorld.js';
 
 export default class Stage {
@@ -104,6 +105,15 @@ export default class Stage {
 
   enablePhysics() {
     this.physWorld = new PhysWorld();
+
+    // const collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration();
+    // const dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
+    // const broadphase = new Ammo.btDbvtBroadphase();
+    // const solver = new Ammo.btSequentialImpulseConstraintSolver();
+    // const softBodySolver = new Ammo.btDefaultSoftBodySolver();
+    // this.AmmoWorld = new Ammo.btSoftRigidDynamicsWorld( dispatcher, broadphase, solver, collisionConfiguration, softBodySolver );
+    // this.AmmoWorld.setGravity( new Ammo.btVector3( 0, gravityConstant, 0 ) );
+    // this.AmmoWorld.getWorldInfo().set_m_gravity( new Ammo.btVector3( 0, gravityConstant, 0 ) );
   }
 
   disbalePhysics() {}
